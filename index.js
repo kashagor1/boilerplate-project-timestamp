@@ -54,7 +54,7 @@ app.get("/api/:time", function (req, res) {
     
     // Create the JSON object with the desired properties
      result = {
-      unix: time,
+      unix: time*1,
       utc: utimestrap
     };
 
