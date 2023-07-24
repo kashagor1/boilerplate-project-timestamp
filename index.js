@@ -18,15 +18,55 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
+// app.get("/api/:time",(req,res)=>{
+//   const time = req.params.time;
+//   const dateObj = new Date(time);
+//   res.send("Hello I am here"+dateObj.getTime());
+//   const utcString = dateObj.toUTCString();
+
+//     const result = {
+//       unix: unixTimestamp,
+//       utc: utcString
+//     };
+// });
+
 
 // your first API endpoint... 
-app.get("/api/hello", function (req, res) {
-  res.json({greeting: 'hello API'});
+app.get("/api/:time", function (req, res) {
+
+  const time = req.params.time;
+ let result ={};
+  if(time[4]=='-'){
+    const udate = new Date(time);
+    const utimestrap = udate.getTime();
+    const uts =udate.toUTCString();
+
+
+     result = {
+      unix : utimestrap,
+      utc: uts
+    }
+  }else{
+    const udate = new Date(time*1);
+
+    // Format the date to the UTC string
+    const utimestrap = udate.toUTCString();
+    
+    // Create the JSON object with the desired properties
+     result = {
+      unix: time,
+      utc: utimestrap
+    };
+
+  }
+
+  res.send(result);
+  //res.json({greeting: 'hello API'});
 });
 
 
 
 // listen for requests :)
-var listener = app.listen(process.env.PORT, function () {
+var listener = app.listen(3000, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
